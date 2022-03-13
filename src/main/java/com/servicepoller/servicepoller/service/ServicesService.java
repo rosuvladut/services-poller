@@ -38,6 +38,12 @@ public class ServicesService {
                 .flatMap(serviceRepository::save);
     }
 
+    public Mono<Service> updateStatus(String id, String name, String url, Status newStatus) {
+        return serviceRepository.findById(id)
+                .map(service -> new Service(service.getId(), name, url, service.getCreatedOn(), newStatus))
+                .flatMap(serviceRepository::save);
+    }
+
     public Mono<Service> delete(String id) {
         return serviceRepository.findById(id)
                 .flatMap(service -> serviceRepository.deleteById(service.getId()).thenReturn(service));
