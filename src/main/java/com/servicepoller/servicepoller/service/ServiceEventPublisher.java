@@ -1,4 +1,4 @@
-package com.servicepoller.servicepoller;
+package com.servicepoller.servicepoller.service;
 
 import com.servicepoller.servicepoller.events.ServiceEvent;
 import org.springframework.context.ApplicationListener;

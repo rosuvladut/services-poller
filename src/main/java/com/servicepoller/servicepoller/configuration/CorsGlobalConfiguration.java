@@ -1,4 +1,4 @@
-package com.servicepoller.servicepoller;
+package com.servicepoller.servicepoller.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.CorsRegistry;
