@@ -42,7 +42,16 @@ class Index extends React.Component<IProps, IState> {
     const socket = new WebSocket('ws://localhost:3000/ws/services'); 
     socket.addEventListener('message', async (event: any) => { 
       const service = JSON.parse(event.data);
-      this.state.listServices.push(new Service(service.id, service.name, service.url, service.createdOn, service.status));
+      const srv = new Service(service.id, service.name, service.url, service.createdOn, service.status);
+      this.state.listServices.map(el => {
+          if(el.Id === srv.Id){
+            Object.assign(el,srv);
+          }
+          return el;
+      }) 
+      if(!this.state.listServices.find(el => el.Id === srv.Id)){ 
+        this.state.listServices.push(new Service(service.id, service.name, service.url, service.createdOn, service.status));
+      }
       this.setState({listServices: this.state.listServices});
       this.setState({ isReady: true });
     });

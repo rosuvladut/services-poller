@@ -1,6 +1,6 @@
 package com.servicepoller.servicepoller;
 
-import com.servicepoller.servicepoller.events.ServiceCreatedEvent;
+import com.servicepoller.servicepoller.events.ServiceEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -12,30 +12,30 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
 @Component
-public class ServiceCreatedEventPublisher implements
-        ApplicationListener<ServiceCreatedEvent>,
-        Consumer<FluxSink<ServiceCreatedEvent>> {
+public class ServiceEventPublisher implements
+        ApplicationListener<ServiceEvent>,
+        Consumer<FluxSink<ServiceEvent>> {
 
     private final Executor executor;
-    private final BlockingQueue<ServiceCreatedEvent> queue =
+    private final BlockingQueue<ServiceEvent> queue =
             new LinkedBlockingQueue<>();
 
-    ServiceCreatedEventPublisher(Executor executor) {
+    ServiceEventPublisher(Executor executor) {
         this.executor = executor;
     }
 
 
     @Override
-    public void onApplicationEvent(ServiceCreatedEvent event) {
+    public void onApplicationEvent(ServiceEvent event) {
         this.queue.offer(event);
     }
 
     @Override
-    public void accept(FluxSink<ServiceCreatedEvent> sink) {
+    public void accept(FluxSink<ServiceEvent> sink) {
         this.executor.execute(() -> {
             while (true)
                 try {
-                    ServiceCreatedEvent event = queue.take();
+                    ServiceEvent event = queue.take();
                     sink.next(event);
                 } catch (InterruptedException e) {
                     ReflectionUtils.rethrowRuntimeException(e);

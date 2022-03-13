@@ -2,7 +2,7 @@ package com.servicepoller.servicepoller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.servicepoller.servicepoller.events.ServiceCreatedEvent;
+import com.servicepoller.servicepoller.events.ServiceEvent;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,10 +45,10 @@ public class WebSocketConfiguration {
     @Bean
     WebSocketHandler webSocketHandler(
             ObjectMapper objectMapper,
-            ServiceCreatedEventPublisher eventPublisher
+            ServiceEventPublisher eventPublisher
     ) {
 
-        Flux<ServiceCreatedEvent> publish = Flux
+        Flux<ServiceEvent> publish = Flux
                 .create(eventPublisher)
                 .share();
 
