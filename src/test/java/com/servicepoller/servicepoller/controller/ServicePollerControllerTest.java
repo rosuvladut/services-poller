@@ -48,10 +48,10 @@ class ServicePollerControllerTest {
         List<Service> list = new ArrayList<>();
         list.add(service);
 
-        Flux<Service> employeeFlux = Flux.fromIterable(list);
+        Flux<Service> serviceFlux = Flux.fromIterable(list);
 
         Mockito.when(servicesService.all())
-                .thenReturn(employeeFlux);
+                .thenReturn(serviceFlux);
 
         webClient.get().uri("/services/")
                 .header(HttpHeaders.ACCEPT, "application/json")
