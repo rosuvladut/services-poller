@@ -5,14 +5,10 @@ import com.servicepoller.servicepoller.entity.Status;
 import com.servicepoller.servicepoller.repository.ServiceRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -60,7 +56,7 @@ public class ServicesServiceTest {
         Mono<Service> serviceMono = this.service.create("Service 1", "www.service1.com");
         StepVerifier
                 .create(serviceMono)
-                .expectNextMatches(saved -> StringUtils.hasText(saved.getId()))
+                .expectNextMatches(saved -> StringUtils.hasText(saved.getId()) && StringUtils.hasText(saved.getUrl()))
                 .verifyComplete();
     }
 
@@ -77,13 +73,14 @@ public class ServicesServiceTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         Mono<Service> saved = this.service
                 .create("test", "www.test.com")
                 .flatMap(p -> this.service.update(p.getId(), "test1", "www.test1.com"));
         StepVerifier
                 .create(saved)
-                .expectNextMatches(p -> p.getName().equalsIgnoreCase("test1"))
+                .expectNextMatches(service1 -> service1.getName().equalsIgnoreCase("test1") &&
+                        service1.getUrl().equalsIgnoreCase("www.test1.com"))
                 .verifyComplete();
     }
 

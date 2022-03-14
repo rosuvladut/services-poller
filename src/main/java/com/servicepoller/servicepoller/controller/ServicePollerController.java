@@ -5,7 +5,6 @@ import com.servicepoller.servicepoller.entity.Service;
 import com.servicepoller.servicepoller.service.ServicesService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.reactivestreams.Publisher;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Profile("classic")
 public class ServicePollerController {
 
     private final MediaType mediaType = MediaType.APPLICATION_JSON_UTF8;
