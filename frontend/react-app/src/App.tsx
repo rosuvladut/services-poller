@@ -23,7 +23,7 @@ const App: React.FC = () => {
                               <Link to={'/create'} className="nav-link">Create</Link>
                           </li>
                           <li className="nav-item">
-                              <Link to={'/index'} className="nav-link">Index</Link>
+                              <Link to={'/index'} className="nav-link">Services List</Link>
                           </li>
                       </ul>
                   </div>

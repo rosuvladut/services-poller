@@ -29,7 +29,16 @@ const TableRow: React.FunctionComponent<IProps> = (props) => {
       <td>{props.service.Name}</td>
       <td>{props.service.Url}</td>
       <td>{props.service.CreatedOn}</td>
-      <td>{props.service.Status}</td>
+      <td>{props.service.Status === "UP" &&
+              <button type="button" className="btn btn-success">UP</button>
+      }
+      {props.service.Status === "DOWN" &&
+              <button type="button" className="btn btn-danger">DOWN</button>
+      }
+      {props.service.Status === "UNKNOWN" &&
+              <button type="button" className="btn btn-light">UNKNOWN</button>
+      }
+      </td>
       <td>
         <Link to={"/edit/" + props.service.Id} className="btn btn-primary">
           Edit
