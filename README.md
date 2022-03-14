@@ -21,4 +21,4 @@ Applications allows the user to:
 - delete a service
 
 Using Websockets the changes are received on the UI once a change is made on an existing service or a new service is added.
-
+Services are polled for their status using a scheduled job and updates are made automatically
