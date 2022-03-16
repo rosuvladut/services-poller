@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    image: 'service-poller-spring-boot:latest'
+    build:
+      context: .
+    container_name: app
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+    networks:
+      - main-network
+
+  db:
+    image: 'mongo:latest'
+    container_name: db
+    restart: unless-stopped
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/mongo:/data/db/
+      - /data/log:/var/log/mongodb/
+    networks:
+      - main-network
+
+networks:
+  main-network:
+    external:
+      name: "main-network"
